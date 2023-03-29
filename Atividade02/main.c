@@ -1,54 +1,64 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-//Métodos de ordenação
-
-int selection_sort(int *vector, int size) {
-    int i, j, min, aux;
-    for (i = 0; i < (size - 1); i++) {
-        min = i;
-        for (j = (i + 1); j < size; j++) {
-            if (vector[j] < vector[min]) {
-                min = j;
-            }
-        }
-        if (i != min) {
-            aux = vector[i];
-            vector[i] = vector[min];
-            vector[min] = aux;
-        }
-    }
-}
-
-int bubble_sort(int *vector, int size) {
-    int i, j, aux;
-    for (i = 0; i < (size - 1); i++) {
-        for (j = 0; j < (size - 1); j++) {
-            if (vector[j] > vector[j + 1]) {
-                aux = vector[j];
-                vector[j] = vector[j + 1];
-                vector[j + 1] = aux;
-            }
-        }
-    }
-}
-
-int swap(int *a, int *b) {
+int swap(int *a, int *b)
+{
     int aux = *a;
     *a = *b;
     *b = aux;
 }
 
-int insertion_sort(int *vector, int size) {
+void bubble_sort(int *vector, int size)
+{
+
     int i, j, aux;
-    for (i = 1; i < size; i++) {
-        aux = vector[i];
-        for (j = i; (j > 0) && (aux < vector[j - 1]); j--) {
-            vector[j] = vector[j - 1];
+    for (i = 0; i < (size - 1); i++)
+    {
+        for (j = 0; j < (size - 1); j++)
+        {
+            if (vector[j] > vector[j + 1])
+            {
+                swap(&vector[j], &vector[j + 1]);
+            }
         }
-        vector[j] = aux;
     }
+    
+
+    
 }
 
-int main () {
+int cura(int *vector1, int *vector2, int nDoses)
+{
+    for (int i = 0; i < nDoses; i++)
+    {
+        if (vector1[i] >= vector2[i])
+        {
+            
+            printf("nao");
+            return 0;
+        }
+    }
+    printf("sim");
+    return 1;
+}
 
+int main()
+{
+    int nDoses, result;
+    int *vectorMOrg = malloc(sizeof(int) * nDoses);
+    int *vectorPot = malloc(sizeof(int) * nDoses);
+    scanf("%d", &nDoses);
+    for (int i = 0; i < nDoses; i++)
+    {
+        scanf("%d", &vectorMOrg[i]);
+    };
+    for (int i = 0; i < nDoses; i++)
+    {
+
+        scanf("%d", &vectorPot[i]);
+    };
+    bubble_sort(vectorMOrg, nDoses);
+    
+    bubble_sort(vectorPot, nDoses);
+    result = cura(vectorMOrg, vectorPot, nDoses);
 }
