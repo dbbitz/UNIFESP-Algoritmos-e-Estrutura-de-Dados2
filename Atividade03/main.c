@@ -9,14 +9,16 @@ typedef struct node
 } Node;
 
 /* Função que mescla duas sublistas ordenadas */
-Node *merge(Node *list1, Node *list2)
+Node *merge(Node *list1, Node *list2, int *level)
 {
     if (list1 == NULL)
     {
+
         return list2;
     }
     else if (list2 == NULL)
     {
+
         return list1;
     }
     else
@@ -25,12 +27,12 @@ Node *merge(Node *list1, Node *list2)
         if (list1->key < list2->key)
         {
             merged = list1;
-            merged->next = merge(list1->next, list2);
+            merged->next = merge(list1->next, list2, level);
         }
         else
         {
             merged = list2;
-            merged->next = merge(list1, list2->next);
+            merged->next = merge(list1, list2->next, level);
         }
         return merged;
     }
@@ -47,22 +49,21 @@ void print_list(Node *list)
 
 Node *divide(Node *list, int *level)
 {
-    Node *rapido = list;
-    Node *lento = list;
+    Node *fast = list;
+    Node *slow = list;
 
-    while (rapido->next != NULL && rapido->next->next != NULL)
+    while (fast->next != NULL && fast->next->next != NULL)
     {
-        rapido = rapido->next->next;
-        lento = lento->next;
-        }
+        fast = fast->next->next;
+        slow = slow->next;
+    }
 
-    struct Node *meio = lento->next;
-    lento->next = NULL;
-
-    return meio;
+    Node *middle = slow->next;
+    slow->next = NULL;
+    return middle;
 }
 
-Node *merge_sort(Node *list, int *level)
+Node *merge_sort(Node *list, int *level, int aux)
 {
     if (list == NULL || list->next == NULL)
     {
@@ -70,15 +71,17 @@ Node *merge_sort(Node *list, int *level)
     }
     else
     {
-        Node *metade1 = list;
-        Node *metade2 = divide(list, level);
+        Node *list1 = list;
+        Node *list2 = divide(list, level);
 
-        level += 1;
+        list1 = merge_sort(list1, level, aux + 1);
+        list2 = merge_sort(list2, level, aux + 1);
+        if (aux > *level)
+        {
+            *level = aux;
+        }
 
-        metade1 = merge_sort(metade1, level);
-        metade2 = merge_sort(metade2, level);
-
-        return merge(metade1, metade2);
+        return merge(list1, list2, level);
     }
 }
 
@@ -88,10 +91,9 @@ int main()
     int n;
     scanf("%d", &n);
     Node *list = NULL;
-    Node *list2 = NULL;
 
     int i;
-    printf("\nDigite os elementos da lista 1: ");
+
     for (i = 0; i < n; i++)
     {
         int key;
@@ -103,10 +105,10 @@ int main()
     }
 
     int level = 0;
+    int aux = 1;
     Node *sort_list;
-    sort_list = merge_sort(list, &level);
+    sort_list = merge_sort(list, &level, aux);
     print_list(sort_list);
-    printf("\nLevel: %d", level);
-
+    printf("\n%d", level);
     return 0;
 }
