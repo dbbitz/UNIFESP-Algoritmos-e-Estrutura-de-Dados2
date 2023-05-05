@@ -4,14 +4,14 @@
 
 int selection_sort(int *vector, int size) {
     int i, j, min, aux;
-    for (i = 0; i < (size - 1); i++) { // O(n)
-        min = i; // O(1)
-        for (j = (i + 1); j < size; j++) { //O(n)
-            if (vector[j] < vector[min]) { // O(1)
+    for (i = 0; i < (size - 1); i++) {
+        min = i;
+        for (j = (i + 1); j < size; j++) {
+            if (vector[j] < vector[min]) {
                 min = j;
             }
         }
-        if (i != min) {
+        if (vector[i] != vector[min]) {
             aux = vector[i];
             vector[i] = vector[min];
             vector[min] = aux;
@@ -60,5 +60,22 @@ int merge_sort_recursive(int *vector, int begin, int end) {
 }
 
 int main () {
-
+    printf("Insira a quantidade de elementos: ");
+    int size;
+    scanf("%d", &size);
+    int *vector = malloc(sizeof(int) * size);
+    printf("Insira os elementos: ");
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &vector[i]);
+    }
+    printf("Vetor antes da ordenação: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", vector[i]);
+    }
+    printf("\n");
+    selection_sort(*vector, size);
+    printf("Vetor depois da ordenação: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", vector[i]);
+    }
 }
