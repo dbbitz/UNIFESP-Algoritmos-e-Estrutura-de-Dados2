@@ -5,33 +5,40 @@ struct lista {
     struct lista *prox;
 };
 
-int merge(int *vector, int begin, int middle, int end) {
-    int *aux = malloc(sizeof(int) * (end - begin + 1));
-    int i = begin, j = middle + 1, k = 0;
-    while (i <= middle && j <= end) {
-        if (vector[i] < vector[j]) {
-            aux[k] = vector[i];
+int merge(int *vector , int begin, int middle, int end) {
+    int i, j, k;
+    int n1 = middle - begin + 1;
+    int n2 = end - middle;
+    int L[n1], R[n2];
+    for (i = 0; i < n1; i++) {
+        L[i] = vector[begin + i];
+    }
+    for (j = 0; j < n2; j++) {
+        R[j] = vector[middle + 1 + j];
+    }
+    i = 0;
+    j = 0;
+    k = begin;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            vector[k] = L[i];
             i++;
         } else {
-            aux[k] = vector[j];
+            vector[k] = R[j];
             j++;
         }
         k++;
     }
-    while (i <= middle) {
-        aux[k] = vector[i];
+    while (i < n1) {
+        vector[k] = L[i];
         i++;
         k++;
     }
-    while (j <= end) {
-        aux[k] = vector[j];
+    while (j < n2) {
+        vector[k] = R[j];
         j++;
         k++;
     }
-    for (i = begin; i <= end; i++) {
-        vector[i] = aux[i - begin];
-    }
-    free(aux);
 }
 
 int merge_sort_recursive(int *vector, int begin, int end) {

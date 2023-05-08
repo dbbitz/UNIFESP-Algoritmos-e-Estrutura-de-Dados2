@@ -9,24 +9,23 @@ int swap(int *a, int *b)
 }
 
 
+
 int bubble_sort(int *vector, int size)
 {
-    int max = size;
-    printf("\nVetor a ser ordenado: ");
-    imprime(vector, size);
-    for (int i = 0; i < size; i++)
+
+    int i, j, aux;
+    for (i = 0; i < (size - 1); i++)
     {
-        for (int j = 0; j < max-1; j++)
+        for (j = 0; j < (size - i - 1); j++)
         {
             if (vector[j] > vector[j + 1])
             {
                 swap(&vector[j], &vector[j + 1]);
             }
+            printf("\n Custo");
         }
-        max--;
-    }
+    }   
 }
-
 
 int bubble_sort_recursive(int *vector, int size){
     if(size == 1){
@@ -59,6 +58,6 @@ int main()
     {
         scanf("%d", &vector[i]);
     }
-    bubble_sort_recursive(vector, n);
+    bubble_sort(vector, n);
     imprime(vector, n);
 }

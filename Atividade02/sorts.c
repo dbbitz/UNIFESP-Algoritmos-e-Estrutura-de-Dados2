@@ -42,8 +42,12 @@ int insertion_sort(int *vector, int size) {
     int i, j, aux;
     for (i = 1; i < size; i++) {
         aux = vector[i];
-        for (j = i; (j > 0) && (aux < vector[j - 1]); j--) {
-            vector[j] = vector[j - 1];
+        for (j = i; (j > 0);j--){
+            if (aux < vector[j - 1]) {
+                vector[j] = vector[j - 1];
+            } else {
+                break;
+            }
         }
         vector[j] = aux;
     }
